@@ -2,14 +2,16 @@ package TicTacToe;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Gameplay extends JPanel {
+public class Gameplay extends JPanel implements KeyListener {
     private int playerScore = 0;
     private int comScore = 0;
     private int matchNumber = 0;
+    private int userNextSpot;
     private String gameOver = "";
     private ArrayList<Integer> comMoves = new ArrayList<>();
     private String[][] gameBoard = {
@@ -17,7 +19,13 @@ public class Gameplay extends JPanel {
             {" ", " ", " "},
             {" ", " ", " "},
     };
-    private Scanner scanner = new Scanner(System.in);
+
+    public Gameplay(){
+
+        // for user to play using their number keys on computer
+        this.addKeyListener(this);
+        this.setFocusable(true);
+    }
 
     @Override
     public void paint(Graphics g) {
@@ -75,6 +83,7 @@ public class Gameplay extends JPanel {
 
         while (true) {
             this.matchNumber++;
+            this.userNextSpot = 0;
             boolean invalidSpot = false;
             comMoves.clear();
             int lastPlayerScore = this.playerScore;
@@ -85,10 +94,8 @@ public class Gameplay extends JPanel {
 
                 // if it's an odd number match
                 if(this.matchNumber % 2 != 0) {
-                    System.out.print("Enter a number (1-9) to play: ");
-                    spot = scanner.nextInt();
 
-                    if (!update(this.gameBoard, spot, 1)) {
+                    if (!update(this.gameBoard, userNextSpot, 1)) {
                         continue;
                     }
 
@@ -126,10 +133,8 @@ public class Gameplay extends JPanel {
                 invalidSpot = false;
 
                 if(this.matchNumber % 2 == 0) {
-                    System.out.print("Enter a number (1-9) to play: ");
-                    spot = scanner.nextInt();
 
-                    if (!update(this.gameBoard, spot, 1)) {
+                    if (!update(this.gameBoard, userNextSpot, 1)) {
                         invalidSpot = true;
                         continue;
                     }
@@ -151,7 +156,6 @@ public class Gameplay extends JPanel {
             //game over code
             if(this.gameOver.isEmpty())
                 this.gameOver = " DRAW :/";
-            System.out.println("Game Over!");
             Thread.sleep(1500);
             resetBoard();
             repaint();
@@ -183,7 +187,6 @@ public class Gameplay extends JPanel {
         // checks if spot is within range
         if (spot < 1 || spot > 9) {
             valid = false;
-            System.out.println("Invalid!");
             return valid;
         }
 
@@ -252,10 +255,6 @@ public class Gameplay extends JPanel {
                 gameBoard[2][2] = symbol;
                 break;
         }
-
-        // only want to print if current player is human!
-        if (!valid && user == 1)
-            System.out.println("Invalid! ");
 
         return valid;
     }
@@ -706,7 +705,50 @@ public class Gameplay extends JPanel {
             }
         }
 
-        //System.out.println("plz fix");
+        // if none of the above apply, play a random spot
         return ThreadLocalRandom.current().nextInt(1,10);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
+
+        if(key == KeyEvent.VK_1){
+            userNextSpot = 1;
+        }
+        if(key == KeyEvent.VK_2){
+            userNextSpot = 2;
+        }
+        if(key == KeyEvent.VK_3){
+            userNextSpot = 3;
+        }
+        if(key == KeyEvent.VK_4){
+            userNextSpot = 4;
+        }
+        if(key == KeyEvent.VK_5){
+            userNextSpot = 5;
+        }
+        if(key == KeyEvent.VK_6){
+            userNextSpot = 6;
+        }
+        if(key == KeyEvent.VK_7){
+            userNextSpot = 7;
+        }
+        if(key == KeyEvent.VK_8){
+            userNextSpot = 8;
+        }
+        if(key == KeyEvent.VK_9){
+            userNextSpot = 9;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
