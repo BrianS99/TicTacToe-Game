@@ -9,6 +9,10 @@ How to Run
 ---
 You can run the game by pulling this repository on your computer and by having Java JDK installed, you can run directly from cmd or from an IDE like IntelliJ IDEA.
 
+How to Play
+---
+The user and computer takes turns placing Xs and Os onto the 3 x 3 game board, until one player has three characters in a row, column, or diagonal. The user plays with their 1-9 number keys on the keyboard. 
+
 Author
 ---
 Brian Sun - [GitHub](https://github.com/BrianS99)
